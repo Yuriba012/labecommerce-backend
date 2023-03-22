@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./index.js"
+    "start": "tsc && node ./build/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/Yuriba012/labecommerce-backend/issues"
   },
-  "homepage": "https://github.com/Yuriba012/labecommerce-backend#readme"
+  "homepage": "https://github.com/Yuriba012/labecommerce-backend#readme",
+  "devDependencies": {
+    "@types/node": "^18.15.5",
+    "typescript": "^5.0.2"
+  }
 }
