@@ -15,19 +15,19 @@ export const users: TUser[] = [
 
 export const products: TProduct[] = [
   {
-    id: "123",
+    id: "a1",
     name: "camiseta astronauta",
     price: 49.99,
     category: CATEGORY.CAMISETAS,
   },
   {
-    id: "987",
+    id: "a2",
     name: "bermuda sport",
     price: 69.9,
     category: CATEGORY.BERMUDAS,
   },
   {
-    id: "2356",
+    id: "a3",
     name: "Casaco Adidas Sport",
     price: 179.99,
     category: CATEGORY.CASACOS,
