@@ -1,4 +1,4 @@
-import { TUser, TProduct, TPurchase, CATEGORY } from "./types";
+import { TUser, TProduct, TPurchase, CATEGORY, TPurchaseProduct, TProductsToPurchase } from "./types";
 
 export const users: TUser[] = [
   {
@@ -34,11 +34,11 @@ export const products: TProduct[] = [
   },
 ];
 
-export const purchase: TPurchase[] = [
+export const purchases: TPurchase[] = [
   {
+    purchaseId: "3216468",
     userId: "2",
-    productId: "987",
-    quantity: 2,
+    products: [],
     totalPrice: 139.8,
   }
 ];
@@ -81,28 +81,47 @@ export function getProductById(id: string) {
   return products.find((product: TProduct) => product.id === id);
 }
 
-export function queryProductsByName(query: string):TProduct[] {
-  return products.filter((product: TProduct) =>
-    product.name.toLowerCase().includes(query.toLowerCase())
-  );
+export function queryProductsByName(query: string): TProduct[] {
+  return products.filter((product: TProduct) => {
+    return product.name.toLowerCase().includes(query.toLowerCase());
+  });
 }
 
 export function createPurchase(
   userId: string,
-  productId: string,
-  quantity: number,
-  totalPrice: number
+  productIds: TProductsToPurchase[]
 ): void {
+  const productsToPurchase: TPurchaseProduct[] = []
+  
+  for (let product of productIds){
+    const currentProduct = products.find((thisProduct)=>{
+      return thisProduct.id == product.productId
+    }) as TProduct
+    productsToPurchase.push(
+      {
+        id: product.productId,
+        name: currentProduct.name as string,
+        price: currentProduct.price as number,
+        quantity: product.quantity as number
+      }
+    )
+  }
+  console.log(productsToPurchase)
+  let totalPrice: number = 0;
+  for (let thisProduct of productsToPurchase){
+    totalPrice += (thisProduct.price * thisProduct.quantity)
+  }
+
   const newPurchase: TPurchase = {
+    purchaseId: JSON.stringify(Date.now()),
     userId: userId,
-    productId: productId,
-    quantity: quantity,
+    products: productsToPurchase,
     totalPrice: totalPrice,
   };
-  purchase.push(newPurchase)
-  console.log("Compra realizada com sucesso")
-};
+  purchases.push(newPurchase);
+  console.log("Compra realizada com sucesso");
+}
 
 export function getAllPurchasesFromUserId(userId: string): TPurchase[] {
-    return purchase.filter((purchase: TPurchase)=>(purchase.userId === userId))
+  return purchases.filter((purchase: TPurchase) => purchase.userId === userId);
 }
